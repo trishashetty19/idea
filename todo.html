@@ -16,9 +16,8 @@
         padding: 50px;
         width: 350px;
         text-align: center;
-        box-shadow: 0 3px 20px #000000; /* Black shadow with no transparency */
-
-        border-radius:15px; 
+        box-shadow: 0 3px 20px #000000; 
+        border-radius: 15px; 
     }
 
     input[type="text"] {
@@ -26,17 +25,20 @@
         padding: 10px; 
         background-color: #FAF7F0;
         color: black;
+        border-radius: 10px;
     }
 
     input[type="button"] {
         padding: 10px 15px;
         background-color: #E7CCCC;
         color: black;
+        border-radius: 10px;
+        cursor: pointer;
     }
 
     .content {
         background-color: #C1CFA1;
-        padding: 80px;
+        padding: 20px;
         margin-top: 10px;
         text-align: left;
     }
@@ -45,7 +47,6 @@
         color: black;
         margin-bottom: 20px;
         text-align: center;
-       
     }
 
     .content ul {
@@ -55,38 +56,90 @@
 
     .content li {
         margin-bottom: 10px;  
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
-    
+
+    .content li span {
+        flex-grow: 1;
+        margin-left: 10px;
+    }
     
     div {
         font-size: 14px;
-        color: black;
-        margin-top: 15px;
     }
-</style>
+
+    .delete {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+    }
+    </style>
 </head>
 <body>
     <div class="box">
         <h1>MY TODO LIST</h1>
-        <input type="text" placeholder="Enter your task">
-        <input type="button" value="Add">
+        <input id="taskInput" type="text" placeholder="Enter your task">
+        <input type="button" value="Add" onclick="addTask()">
         <br>
         <div class="content">
-            <div class="heading"></div>
             <h2><u>My Tasks</u></h2>
-            <ul>
-                <li><input type="checkbox">ESD Assigment </li>
-                <li><input type="checkbox">AI Record completion</li>
-                <li><input type="checkbox">Canvas painting</li>
+            <ul id="taskList">
+                <!-- No initial tasks-->
             </ul>
         </div>
         <hr>
         <div>
-            <b>Completed : 0 | Uncompleted : 0</b>
+            <b>Completed : <span id="completedCount">0</span> | Incomplete : <span id="incompleteCount">0</span></b>
         </div>
     </div>
+
+    <script>
+        function addTask() {
+            const taskInput = document.getElementById("taskInput");
+            const taskText = taskInput.value.trim();
+
+            if (taskText === "") {
+                alert("Please enter a task.");
+                return;
+            }
+
+            const taskList = document.getElementById("taskList");
+            const newTask = document.createElement("li");
+
+            newTask.innerHTML = `<input type="checkbox" onclick="updateCount()"> <span>${taskText}</span> <button class="delete" onclick="deleteTask(this)">🗑️</button>`;
+            taskList.appendChild(newTask);
+
+            taskInput.value = ""; 
+            updateCount(); 
+        }
+
+        function deleteTask(button) {
+            const taskItem = button.parentElement;
+            taskItem.remove();
+            updateCount();
+        }
+
+        function updateCount() {
+            const tasks = document.querySelectorAll("#taskList li");
+            let completed = 0;
+            let incomplete = 0;
+
+            tasks.forEach(task => {
+                const checkbox = task.querySelector("input[type='checkbox']");
+                if (checkbox.checked) {
+                    completed++;
+                } else {
+                    incomplete++;
+                }
+            });
+
+            document.getElementById("completedCount").innerText = completed;
+            document.getElementById("incompleteCount").innerText = incomplete;
+        }
+        updateCount();
+    </script>
 </body>
 </html>
-    
-
-   
