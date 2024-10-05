@@ -1,0 +1,88 @@
+body {
+    background-color: #E7CCCC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+}
+
+.box {
+    background-color: #A5B68D;
+    padding: 50px;
+    width: 350px;
+    height: 500px;
+    text-align: center;
+    box-shadow: 0 3px 20px #000000; 
+    border-radius: 15px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    width: 70%;
+    padding: 10px; 
+    background-color: #FAF7F0;
+    color: black;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+input[type="button"] {
+    padding: 10px 15px;
+    background-color: #E7CCCC;
+    color: black;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.content {
+    background-color: #C1CFA1;
+    padding: 20px;
+    margin-top: 10px;
+    text-align: left;
+    height: 300px; 
+    overflow-y: auto; /*Scroll*/
+}
+
+.content h2 {
+    color: black;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.content ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.content li {
+    margin-bottom: 10px;  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content li span {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+div {
+    font-size: 14px;
+}
+
+.delete {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+}
