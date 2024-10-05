@@ -2,102 +2,147 @@
 <html lang="en">
 <head>
     <title>TODO App</title>
+    <!-- Link to Font Awesome for delete icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
-    body {
-        background-color: #E7CCCC;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 95vh;
-    }
+        body {
+            background-color: #E7CCCC;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 95vh;
+        }
 
-    .box {
-        background-color: #A5B68D;
-        padding: 50px;
-        width: 350px;
-        text-align: center;
-        box-shadow: 0 3px 20px #000000; 
-        border-radius: 15px; 
-    }
+        .box {
+            background-color: #A5B68D;
+            padding: 50px;
+            width: 350px;
+            height: 500px;
+            text-align: center;
+            box-shadow: 0 3px 20px #000000; 
+            border-radius: 15px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    input[type="text"] {
-        width: 70%;
-        padding: 10px; 
-        background-color: #FAF7F0;
-        color: black;
-        border-radius: 10px;
-    }
+        .input-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
 
-    input[type="button"] {
-        padding: 10px 15px;
-        background-color: #E7CCCC;
-        color: black;
-        border-radius: 10px;
-        cursor: pointer;
-    }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px; 
+            background-color: #FAF7F0;
+            color: black;
+            border-radius: 10px;
+            display: inline-block;
+        }
 
-    .content {
-        background-color: #C1CFA1;
-        padding: 20px;
-        margin-top: 10px;
-        text-align: left;
-    }
+        input[type="button"] {
+            padding: 10px 15px;
+            background-color: #E7CCCC;
+            color: black;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 10px;
+        }
 
-    .content h2 {
-        color: black;
-        margin-bottom: 20px;
-        text-align: center;
-    }
+        .content {
+            background-color: #C1CFA1;
+            padding: 20px;
+            margin-top: 10px;
+            text-align: left;
+            height: 300px; 
+            overflow-y: auto; /*Scroll*/
+        }
 
-    .content ul {
-        list-style-type: none;
-        padding-left: 0;
-    }
+        .content h2 {
+            color: black;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    .content li {
-        margin-bottom: 10px;  
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+        .content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
 
-    .content li span {
-        flex-grow: 1;
-        margin-left: 10px;
-    }
-    
-    div {
-        font-size: 14px;
+        .content li {
+            margin-bottom: 10px;  
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    }
+        .content li span {
+            flex-grow: 1;
+            margin-left: 10px;
+        }
+        
+        div {
+            font-size: 14px;
+        }
 
-    .delete {
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        font-size: 18px;
-    }
+        .delete {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="box">
         <h1>MY TODO LIST</h1>
-        <input id="taskInput" type="text" placeholder="Enter your task">
-        <input type="button" value="Add" onclick="addTask()">
-        <br>
+        <div class="input-container">
+            <input id="taskInput" type="text" placeholder="Enter your task">
+            <input type="button" value="Add" onclick="addTask()">
+        </div>
         <div class="content">
             <h2><u>My Tasks</u></h2>
             <ul id="taskList">
-                <!-- No initial tasks-->
+                <!-- No initial tasks -->
             </ul>
         </div>
         <hr>
         <div>
-            <b>Completed : <span id="completedCount">0</span> | Incomplete : <span id="incompleteCount">0</span></b>
+            <b>Completed: <span id="completedCount">0</span> | Incomplete: <span id="incompleteCount">0</span></b>
         </div>
     </div>
 
     <script>
+        function createTaskElement(taskText) {
+            const newTask = document.createElement("li");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.onclick = updateCount;
+
+            const span = document.createElement("span");
+            span.textContent = taskText;
+
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "delete";
+            deleteButton.onclick = function() { deleteTask(deleteButton); };
+            
+            const deleteIcon = document.createElement("i");
+            deleteIcon.className = "fa-solid fa-trash"; 
+            
+            
+            deleteButton.appendChild(deleteIcon);
+            
+            
+            newTask.appendChild(checkbox);
+            newTask.appendChild(span);
+            newTask.appendChild(deleteButton);
+
+            return newTask;
+        }
+
         function addTask() {
             const taskInput = document.getElementById("taskInput");
             const taskText = taskInput.value.trim();
@@ -108,11 +153,12 @@
             }
 
             const taskList = document.getElementById("taskList");
-            const newTask = document.createElement("li");
-
-            newTask.innerHTML = `<input type="checkbox" onclick="updateCount()"> <span>${taskText}</span> <button class="delete" onclick="deleteTask(this)">🗑️</button>`;
+            const newTask = createTaskElement(taskText); 
+            
+        
             taskList.appendChild(newTask);
 
+    
             taskInput.value = ""; 
             updateCount(); 
         }
